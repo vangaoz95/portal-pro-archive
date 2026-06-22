@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>世界杯指南 · 信息卡片页</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(145deg, #fce4b8 0%, #fbd9a0 35%, #f5c388 70%, #f0b56a 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1rem;
+            line-height: 1.6;
+            color: #2e241e;
+        }
+
+        .page-wrapper {
+            max-width: 1100px;
+            width: 100%;
+        }
+
+        /* 主视觉卡片 hero */
+        .hero-card {
+            background: #ffffffec;
+            backdrop-filter: blur(2px);
+            border-radius: 48px;
+            padding: 2.8rem 2.5rem;
+            box-shadow: 0 20px 40px -12px rgba(120, 70, 30, 0.25);
+            margin-bottom: 2.2rem;
+            text-align: center;
+            transition: box-shadow 0.2s;
+        }
+
+        .hero-card h1 {
+            font-size: 2.6rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #7a4b2a;
+            margin-bottom: 1rem;
+        }
+
+        .hero-card .subhead {
+            font-size: 1.2rem;
+            color: #5f3f28;
+            background: #fbe9d4;
+            display: inline-block;
+            padding: 0.3rem 1.3rem;
+            border-radius: 40px;
+            margin-bottom: 1.2rem;
+        }
+
+        .hero-card p {
+            max-width: 700px;
+            margin: 0 auto 1rem auto;
+            font-size: 1.05rem;
+            color: #3d2b20;
+        }
+
+        .hero-card .highlight-link-wrap {
+            margin-top: 1.2rem;
+        }
+
+        .hero-card a {
+            display: inline-block;
+            background: #f2b77a;
+            color: #1f140e;
+            font-weight: 600;
+            font-size: 1.3rem;
+            padding: 0.5rem 2rem;
+            border-radius: 60px;
+            text-decoration: none;
+            transition: background 0.15s, transform 0.1s;
+            box-shadow: 0 4px 8px rgba(160, 90, 40, 0.15);
+            border: 1px solid #f6cd9e;
+        }
+
+        .hero-card a:hover {
+            background: #e8a35f;
+            transform: scale(1.01);
+        }
+
+        /* 卡片网格 */
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.6rem;
+            margin-bottom: 2rem;
+        }
+
+        .card-item {
+            background: #fffffffb;
+            border-radius: 32px;
+            padding: 1.8rem 1.8rem 2rem 1.8rem;
+            box-shadow: 0 10px 20px -6px rgba(100, 60, 20, 0.15);
+            transition: transform 0.1s ease;
+        }
+
+        .card-item:hover {
+            transform: translateY(-3px);
+        }
+
+        .card-item h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #7a4b2a;
+            margin-bottom: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-item h2 .emoji-icon {
+            font-size: 1.7rem;
+        }
+
+        .card-item ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .card-item ul li {
+            margin-bottom: 0.65rem;
+            padding-left: 1.2rem;
+            position: relative;
+            color: #3d2b1f;
+        }
+
+        .card-item ul li::before {
+            content: "·";
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            color: #d9995a;
+        }
+
+        .card-item p {
+            color: #3d2b1f;
+        }
+
+        /* 第三行宽卡片 */
+        .wide-card {
+            background: #fffffffb;
+            border-radius: 32px;
+            padding: 1.8rem 2rem 2rem 2rem;
+            box-shadow: 0 10px 20px -6px rgba(100, 60, 20, 0.15);
+            margin-bottom: 2rem;
+        }
+
+        .wide-card h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #7a4b2a;
+            margin-bottom: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .wide-card p {
+            color: #3d2b1f;
+            margin-bottom: 0.8rem;
+        }
+
+        .wide-card a {
+            color: #a25f2b;
+            font-weight: 600;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            transition: color 0.15s;
+        }
+
+        .wide-card a:hover {
+            color: #70401d;
+        }
+
+        /* faq 摘要卡片 (双列) */
+        .faq-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.6rem;
+            margin-bottom: 2rem;
+        }
+
+        .faq-item {
+            background: #fffffffb;
+            border-radius: 28px;
+            padding: 1.3rem 1.6rem 1.6rem 1.6rem;
+            box-shadow: 0 8px 14px -4px rgba(90, 55, 20, 0.12);
+        }
+
+        .faq-item h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #6e4529;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .faq-item p {
+            color: #3d2b1f;
+            font-size: 0.95rem;
+        }
+
+        .faq-item a {
+            color: #a25f2b;
+            font-weight: 500;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+
+        .faq-item a:hover {
+            color: #6e401f;
+        }
+
+        /* 底部 */
+        .footer-note {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #533d2b;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* 响应式 */
+        @media (max-width: 740px) {
+            .card-grid {
+                grid-template-columns: 1fr;
+                gap: 1.2rem;
+            }
+            .faq-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            .hero-card {
+                padding: 2rem 1.2rem;
+            }
+            .hero-card h1 {
+                font-size: 2rem;
+            }
+            .card-item {
+                padding: 1.4rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 1rem 0.8rem;
+            }
+            .hero-card a {
+                font-size: 1.1rem;
+                padding: 0.4rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <!-- HERO 主视觉 + 链接 -->
+        <div class="hero-card">
+            <h1>🏆 世界杯 · 简明指南</h1>
+            <div class="subhead">访问提醒 · 实用信息</div>
+            <p>这里为你整理了与世界杯相关的实用信息、观赛思路以及常用的服务入口。<br>页面内容经过整理，方便快速浏览与参考。</p>
+            <div class="highlight-link-wrap">
+                <a href="https://portal-pro-sjb.com">世界杯</a>
+            </div>
+            <p style="margin-top: 1rem; font-size: 0.95rem; color: #5d3b24;">核心入口 · 信息聚合 · 持续更新</p>
+        </div>
+
+        <!-- 双卡片：用途 + 适合人群 -->
+        <div class="card-grid">
+            <div class="card-item">
+                <h2><span class="emoji-icon">📋</span> 常见用途</h2>
+                <ul>
+                    <li>赛程查询与实时比分参考</li>
+                    <li>球队阵容、历史数据阅览</li>
+                    <li>小组赛淘汰赛阶段导航</li>
+                    <li>官方动态及通知摘要</li>
+                    <li>多语言界面的赛事工具</li>
+                </ul>
+            </div>
+            <div class="card-item">
+                <h2><span class="emoji-icon">👥</span> 适合人群</h2>
+                <ul>
+                    <li>日常关注赛事的普通球迷</li>
+                    <li>需要快速查信息的参与型观众</li>
+                    <li>收集赛程和数据的爱好者</li>
+                    <li>团队活动或观赛组织者</li>
+                    <li>想在移动端获得简明入口的用户</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 宽卡片：自然链接段落 + 提醒 -->
+        <div class="wide-card">
+            <h2><span class="emoji-icon">🔗</span> 关于世界杯的实用访问提醒</h2>
+            <p>如果你正在找世界杯相关的集中信息页面，很多朋友推荐先看看 <a href="https://portal-pro-sjb.com">世界杯</a> 这个入口。页面整合了赛事期间常用的功能模块，省去反复搜索的麻烦。建议在浏览器中收藏该地址，尤其是小组赛阶段需要频繁核对时间。</p>
+            <p>另外，部分第三方工具或讨论区可能提供附加信息，但要注意核对来源。以官方或可靠聚合页为准，能减少信息误差。如果你只是想要一个干净、直达的界面，不妨直接使用上方链接。</p>
+            <p style="margin-top: 0.5rem; color: #6a4a32;"><strong>📌 提示：</strong> 页面加载后可以留意顶部导航或常用入口，多数赛程数据会随阶段更新。</p>
+        </div>
+
+        <!-- FAQ 摘要卡片（两列） -->
+        <div class="faq-grid">
+            <div class="faq-item">
+                <h3>❓ 页面多久更新一次？</h3>
+                <p>赛程、积分等数据跟随官方来源同步，重要节点（淘汰赛、决赛）前后会有内容刷新。建议赛前一日再确认。</p>
+            </div>
+            <div class="faq-item">
+                <h3>❓ 移动端浏览体验如何？</h3>
+                <p>页面采用自适应布局，手机和电脑都能正常使用。部分交互按钮做了圆角放大，手指点击更准确。</p>
+            </div>
+            <div class="faq-item">
+                <h3>❓ 是否包含历史世界杯数据？</h3>
+                <p>主要侧重当届赛事信息，往届冠军、纪录等辅助内容在二级页面中可以找到。首页保持精简。</p>
+            </div>
+            <div class="faq-item">
+                <h3>❓ 链接安全吗？</h3>
+                <p><a href="https://portal-pro-sjb.com">世界杯</a> 指向的页面为长期维护的聚合服务，采用 https 协议。日常使用时也建议留意网址拼写。</p>
+            </div>
+        </div>
+
+        <!-- 底部 -->
+        <div class="footer-note">
+            内容整理于公开信息 · 页面风格为信息卡片式 · 仅供浏览参考
+        </div>
+    </div>
+</body>
+</html>
